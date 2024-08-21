@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complex Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        form {
+            margin: 20px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+      <h2>Registration Form</h2>
+    
+         <label for="username">Username</label>
+         <input type="text" id="username" name="username" required>
+ 
+         <label for="email">Email</label>
+         <input type="email" id="email" name="email" required>
+ 
+         <label for="password">Password</label>
+         <input type="password" id="password" name="password" required>
+ 
+         <label>
+             <input type="checkbox" name="subscribe" value="newsletter"> Subscribe to newsletter
+         </label>
+ 
+         <button id="submitbtn">Submit</button>
+ 
+    </div>
+    <script>
+     document.body.addEventListener('click', function(e) {
+         if (e.target && e.target.id === 'submitbtn') {
+             e.preventDefault();
+         
+             let username = document.getElementById('username').value;
+             let email = document.getElementById('email').value;
+             let password = document.getElementById('password').value;
+             let subscribe = document.querySelector('input[name="subscribe"]:checked') ? true : false;
+ 
+             if (username.length < 3) {
+                 alert("Username must be at least 3 characters long.");
+                 return false;
+             }
+ 
+             if (!email.includes('@')) {
+                 alert("Please enter a valid email address.");
+                 return false;
+             }
+ 
+             if (password.length < 6) {
+                 alert("Password must be at least 6 characters long.");
+                 return false;
+             }
+ 
+             const userdata = {
+                 name: username,
+                 email: email,
+                 password: password,
+                 subscribe: subscribe
+             };
+ 
+             console.log(userdata);
+             // If you want to send the data to the server, you can use the fetch API here:
+             
+             fetch('http://127.0.0.1:5000/submit', {
+                 method: 'POST',
+                 headers: {
+                     'Content-Type': 'application/json'
+                 },
+                 body: JSON.stringify(userdata)
+             })
+             .then(response => response.json())
+             .then(data => {
+                 console.log('Success:', data);
+                 alert('Registration successful !');
+             })
+             
+         }
+     });
+    </script>
+ </body>
+ 
+
+</body>
+</html>
